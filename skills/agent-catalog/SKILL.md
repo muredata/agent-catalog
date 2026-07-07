@@ -104,7 +104,23 @@ most-to-least relevant), as a Markdown table:
 
 | Name | Type | Description | Link |
 |---|---|---|---|
-| displayName | type | one-line description, capped at 80 chars (`…` if cut) | a Markdown link `[publisher/identifier](url)` — link text capped at 40 chars (`…` if cut), href is the result's full URL, so it's clickable |
+| displayName | label (see below) | one-line description, capped at 80 chars (`…` if cut) | a Markdown link `[publisher/identifier](url)` — link text capped at 40 chars (`…` if cut), href is the result's full URL, so it's clickable |
+
+**Type column.** Each result's `type` is a raw IANA media type (e.g.
+`application/mcp-server-card+json`) — never print that raw string. Map it to a
+short human label:
+
+| Raw `type` | Label |
+|---|---|
+| `application/mcp-server-card+json` | MCP |
+| `application/ai-skill+md` | Skill |
+| `application/agent-card+json` | Agent |
+| `application/tool+json` or `application/openapi+json` | Tool |
+
+For any other `application/…` media type, derive a label the same way: drop
+the `application/` prefix and the `+json`/`+md` suffix, drop a generic `ai-`
+prefix, take the first remaining word, and title-case it (e.g.
+`application/ai-prompt+md` → Prompt).
 
 Don't print a numeric score or rating — rely on row order to convey relevance.
 If more than 5 results came back, say how many were omitted and offer to show

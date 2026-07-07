@@ -10,7 +10,7 @@ A catalog for Agentic Data Resources, implements [Agentic Resource Discovery (AR
 
 ### Usage
 
-Install Skill on Claude Code:
+Install Skill on Claude Code, Codex or GitHub Copilot:
 ```
 curl -fsSL https://raw.githubusercontent.com/muredata/agent-catalog/main/install.sh | bash
 ```
