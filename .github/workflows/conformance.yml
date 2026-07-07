@@ -1,0 +1,35 @@
+name: ard-conformance
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  conformance:
+    runs-on: ubuntu-latest
+    name: Conformance Check
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Check well-known endpoints are reachable
+        run: |
+          echo "=== ard.muredata.com/health ==="
+          curl -sSf "https://ard.muredata.com/health"
+          echo ""
+          echo "=== muredata.com/.well-known/ai-catalog.json ==="
+          curl -sSf "https://muredata.com/.well-known/ai-catalog.json" -o /dev/null
+          echo "OK"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install jsonschema
+        run: pip install jsonschema
+
+      - name: Run conformance check
+        run: bash scripts/conformance.sh
